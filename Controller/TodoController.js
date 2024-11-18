@@ -3,22 +3,28 @@ import TodoServise from "../Servise/TodoServise.js";
 class TodoCntroller {
   async create(req, res) {
     try {
-      console.log("Сосал,");
-      // if (!req.headers.authorization) {
-      //   return new Error("Пользователь не авторизован");
-      // }
+      if (!req.headers.authorization) {
+        return new Error("Пользователь не авторизован");
+      }
       const todo = await TodoServise.create(req);
       res.json(todo);
-    } catch (error) {     
+    } catch (error) {
       console.log("Опять сосал");
-      
+
       res.status(500).json(error);
     }
   }
   async getAllTodos(req, res) {
     try {
       const todos = await TodoServise.getAllTodos();
-      res.json(todos);
+      // if (!req.userId) {
+      //   throw new Error("Пользователь не авторизован");
+      // }
+      const filterTodosUser = todos.filter(
+        (item) => String(item.user) === req.userId
+      );
+      console.log("todos", filterTodosUser);
+      res.json(filterTodosUser);
     } catch (error) {
       res.status(500).json(error);
     }

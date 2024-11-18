@@ -29,16 +29,18 @@ class AuthServise {
   async login(username, password) {
     const user = await User.findOne({ username });
     if (!user) {
+      console.log("пользователь не найден");
       throw new Error("пользователь не найден");
     }
     const isPassTrue = bcrypt.compareSync(password, user.password);
     if (!isPassTrue) {
+      console.log("Пароль не верный");
       throw new Error("Пароль не верный ");
     }
     const userDto = new UserDto(user);
     const tokens = await tokenServise.generateToken({ ...userDto });
     await tokenServise.saveRefreshToken(userDto.id, tokens.refreshToken);
-    return { tokens, userDto };
+    return { ...tokens, user: { ...userDto } };
   }
 }
 

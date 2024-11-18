@@ -5,6 +5,7 @@ class AuthController {
   async registration(req, res) {
     try {
       const { username, password } = req.body;
+      console.log("Ну привет");
       const userData = await AuthServise.registration(username, password);
       return res.json({ message: "Пользователь сохранен", userData });
     } catch (error) {
@@ -15,12 +16,12 @@ class AuthController {
     try {
       const { username, password } = req.body;
       const userData = await AuthServise.login(username, password);
-      return res.json({ message: "Пользователь вошел", userData });
-      return res
-        .status(200)
-        .header("auth-token", userData.tokens.accessToken)
-        .send({ token: userData.tokens.accessToken });
+      console.log("Ну привет");
+      console.log(userData);
+      return res.json(userData);
     } catch (error) {
+      console.log("cocal");
+
       res.status(400).json("ТЫ сосал");
     }
   }

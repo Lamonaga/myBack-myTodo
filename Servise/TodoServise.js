@@ -1,13 +1,11 @@
 import Todo from "../model/Todo.js";
 
 class TodoServise {
-  async create(req) {
+  async create(req) {  
     const todo = {
       ...req.body,
       user: req.userId,
     };
-    console.log("reeq", req);
-        
     const createItem = await Todo.create(todo);
     return createItem;
   }
